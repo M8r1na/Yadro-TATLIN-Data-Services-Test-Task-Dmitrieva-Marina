@@ -1,0 +1,8 @@
+{
+    "readDelay": 100,
+    "writeDelay": 100,
+    "moveDelay": 100,
+    "rewindDelay": 100,
+    "N": 100,
+    "M": 100
+}
