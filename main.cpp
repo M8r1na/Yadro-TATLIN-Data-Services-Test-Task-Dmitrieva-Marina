@@ -6,9 +6,10 @@
 
 const int EXPECTED_ARG_COUNT = 3;
 const char *CONFIG_FILE_NAME = "config.json";
-const int NUM_TEMP_TAPES = 10;
+const int NUM_TEMP_TAPES = 100;
 
-bool isValidString(const char *line) {
+bool isValidString(const char *line)
+{
     while (*line) {
         if (!std::isprint(*line)) {
             return false;
@@ -18,7 +19,8 @@ bool isValidString(const char *line) {
     return true;
 }
 
-std::pair<const char *, const char *> parseArguments(int argc, char *argv[]) {
+std::pair<const char *, const char *> parseArguments(int argc, char *argv[])
+{
     if (argc != EXPECTED_ARG_COUNT) {
         throw InvalidNumberOfArgumentsException(EXPECTED_ARG_COUNT - 1, argc - 1);
     }
@@ -30,14 +32,15 @@ std::pair<const char *, const char *> parseArguments(int argc, char *argv[]) {
     return {argv[1], argv[2]};
 }
 
-void deleteTapeDevices(TapeDevice *inputTape, TapeDevice *outputTape) {
+void deleteTapeDevices(TapeDevice *inputTape, TapeDevice *outputTape)
+{
     delete inputTape;
     delete outputTape;
 }
 
-std::pair<TapeDevice *, TapeDevice *>
-createTapeDevices(const std::string &inputFileName,
-                  const std::string &outputFileName) {
+std::pair<TapeDevice *, TapeDevice *> createTapeDevices(const std::string &inputFileName,
+                                                        const std::string &outputFileName)
+{
     TapeDevice *inputTape = nullptr;
     TapeDevice *outputTape = nullptr;
 
@@ -56,7 +59,8 @@ createTapeDevices(const std::string &inputFileName,
     return {inputTape, outputTape};
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     TapeDevice *inputTape = nullptr;
     TapeDevice *outputTape = nullptr;
 

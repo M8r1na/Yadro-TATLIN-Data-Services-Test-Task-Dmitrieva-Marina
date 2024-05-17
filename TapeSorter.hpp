@@ -6,7 +6,8 @@
 #include <memory>
 #include <vector>
 
-class TapeSorter {
+class TapeSorter
+{
   private:
     void createTempTapes(const int numTapes);
     void divideAndSortBlocks();
@@ -24,4 +25,4 @@ class TapeSorter {
     void sort();
 };
 
-#endif // SORTER_HPP
+#endif  // SORTER_HPP

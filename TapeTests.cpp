@@ -4,7 +4,8 @@
 #include <fstream>
 #include <gtest/gtest.h>
 
-TEST(TapeSorterTest, SortTest) {
+TEST(TapeSorterTest, SortTest)
+{
     std::ofstream input_tape_file("input_tape");
     input_tape_file.close();
 
@@ -31,7 +32,8 @@ TEST(TapeSorterTest, SortTest) {
     std::remove("output_tape");
 }
 
-TEST(TapeDeviceTest, ReadWriteTest) {
+TEST(TapeDeviceTest, ReadWriteTest)
+{
     std::ofstream test_tape("test_tape");
     test_tape.close();
 
@@ -51,7 +53,8 @@ TEST(TapeDeviceTest, ReadWriteTest) {
     std::remove("test_tape");
 }
 
-TEST(TapeDeviceTest, MoveTest) {
+TEST(TapeDeviceTest, MoveTest)
+{
     std::ofstream test_tape("test_tape");
     test_tape.close();
 
@@ -74,7 +77,8 @@ TEST(TapeDeviceTest, MoveTest) {
     std::remove("test_tape");
 }
 
-TEST(TapeDeviceTest, IsEndTest) {
+TEST(TapeDeviceTest, IsEndTest)
+{
     std::ofstream test_tape("test_tape");
     test_tape.close();
 
@@ -97,7 +101,8 @@ TEST(TapeDeviceTest, IsEndTest) {
     std::remove("test_tape");
 }
 
-TEST(TapeSorterTest, EmptyTapeTest) {
+TEST(TapeSorterTest, EmptyTapeTest)
+{
     std::ofstream input_tape_file("input_tape");
     input_tape_file.close();
 
@@ -116,7 +121,8 @@ TEST(TapeSorterTest, EmptyTapeTest) {
     std::remove("output_tape");
 }
 
-TEST(TapeDeviceTest, ReadFromEmptyTapeTest) {
+TEST(TapeDeviceTest, ReadFromEmptyTapeTest)
+{
     std::ofstream test_tape("test_tape");
     test_tape.close();
 
@@ -126,7 +132,8 @@ TEST(TapeDeviceTest, ReadFromEmptyTapeTest) {
     std::remove("test_tape");
 }
 
-TEST(TapeDeviceTest, WriteDelayTest) {
+TEST(TapeDeviceTest, WriteDelayTest)
+{
     std::ofstream test_tape("test_tape");
     test_tape.close();
 
@@ -143,7 +150,8 @@ TEST(TapeDeviceTest, WriteDelayTest) {
     std::remove("test_tape");
 }
 
-TEST(TapeSorterTest, SortEmptyTapeTest) {
+TEST(TapeSorterTest, SortEmptyTapeTest)
+{
     std::ofstream input_tape_file("input_tape");
     input_tape_file.close();
     std::ofstream output_tape_file("output_tape");
@@ -161,7 +169,8 @@ TEST(TapeSorterTest, SortEmptyTapeTest) {
     std::remove("output_tape");
 }
 
-TEST(TapeSorterTest, SortSingleElementTapeTest) {
+TEST(TapeSorterTest, SortSingleElementTapeTest)
+{
     std::ofstream input_tape_file("input_tape");
     input_tape_file.close();
     std::ofstream output_tape_file("output_tape");
@@ -183,7 +192,36 @@ TEST(TapeSorterTest, SortSingleElementTapeTest) {
     std::remove("output_tape");
 }
 
-int main(int argc, char **argv) {
+TEST(TapeSorterTest, SortWithMemoryLimitTest)
+{
+    std::ofstream input_tape_file("input_tape");
+    input_tape_file.close();
+    std::ofstream output_tape_file("output_tape");
+    output_tape_file.close();
+
+    TapeDevice inputTape("input_tape");
+    for (int i = 9; i >= 0; --i) {
+        inputTape.write(i);
+    }
+    inputTape.rewind();
+
+    TapeDevice outputTape("output_tape");
+    // Set memory limit less than the number of elements
+    TapeSorter sorter(&inputTape, &outputTape, 10);
+    sorter.sort();
+
+    // Check the output tape
+    outputTape.rewind();
+    for (int i = 0; i < 10; ++i) {
+        EXPECT_EQ(i, outputTape.read());
+    }
+
+    std::remove("input_tape");
+    std::remove("output_tape");
+}
+
+int main(int argc, char **argv)
+{
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

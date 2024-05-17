@@ -3,7 +3,8 @@
 
 #include <string>
 
-class TapeInterface {
+class TapeInterface
+{
   public:
     virtual ~TapeInterface() {}
 
@@ -15,4 +16,4 @@ class TapeInterface {
     virtual void loadConfig(const std::string &configFile) = 0;
 };
 
-#endif // TAPE_INTERFACE_HPP
+#endif  // TAPE_INTERFACE_HPP

@@ -4,7 +4,8 @@
 #include <exception>
 #include <string>
 
-class TapeException : public std::exception {
+class TapeException : public std::exception
+{
   private:
     std::string message;
 
@@ -15,7 +16,7 @@ class TapeException : public std::exception {
 };
 
 struct TapeOpenException : public TapeException {
-    TapeOpenException(const std::string &message)
+    TapeOpenException(const std::string &message) 
         : TapeException("Failed to open tape: " + message) {}
 };
 
@@ -25,8 +26,8 @@ struct TapeReadException : public TapeException {
 };
 
 struct ReadFromEmptyTapeException : public TapeException {
-    ReadFromEmptyTapeException()
-        : TapeException("Attempted to read from an empty tape") {}
+    ReadFromEmptyTapeException() 
+    : TapeException("Attempted to read from an empty tape") {}
 };
 
 struct TapeWriteException : public TapeException {
@@ -61,17 +62,18 @@ struct NotEnoughTempTapesException : public TapeException {
 
 struct InvalidNumberOfArgumentsException : public TapeException {
     InvalidNumberOfArgumentsException(const int expected, const int actual)
-        : TapeException("Invalid number of arguments. Expected: " +
-                        std::to_string(expected) +
-                        ", actual: " + std::to_string(actual)) {}
+        : TapeException("Invalid number of arguments. Expected: " + std::to_string(expected)
+                        + ", actual: " + std::to_string(actual)) {}
 };
 
 struct FileOpenException : public TapeException {
-    FileOpenException() : TapeException("Failed to open file") {}
+    FileOpenException()
+        : TapeException("Failed to open file") {}
 };
 
 struct InvalidFileNameException : public TapeException {
-    InvalidFileNameException() : TapeException("Invalid file name") {}
+    InvalidFileNameException()
+        : TapeException("Invalid file name") {}
 };
 
-#endif // TAPE_EXCEPTIONS_HPP
+#endif  // TAPE_EXCEPTIONS_HPP

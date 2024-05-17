@@ -4,13 +4,14 @@
 #include <iostream>
 #include <queue>
 
-TapeSorter::TapeSorter(TapeDevice *inputTape, TapeDevice *outputTape,
-                       int numTempTapes)
-    : inputTape(inputTape), outputTape(outputTape) {
+TapeSorter::TapeSorter(TapeDevice *inputTape, TapeDevice *outputTape, int numTempTapes)
+    : inputTape(inputTape), outputTape(outputTape)
+{
     createTempTapes(numTempTapes);
 }
 
-TapeSorter::~TapeSorter() noexcept {
+TapeSorter::~TapeSorter() noexcept
+{
     for (auto &tape : tempTapes) {
         tape->stop();
         std::remove(tape->filename.c_str());
@@ -18,7 +19,8 @@ TapeSorter::~TapeSorter() noexcept {
     tempTapes.clear();
 }
 
-void TapeSorter::createTempTapes(const int numTapes) {
+void TapeSorter::createTempTapes(const int numTapes)
+{
     std::filesystem::path tmpDirectory = TapeUtils::createTmpDirectory();
     std::vector<std::unique_ptr<TapeDevice>> newTapes;
 
@@ -36,12 +38,14 @@ void TapeSorter::createTempTapes(const int numTapes) {
 }
 
 // Merge sort algorithm
-void TapeSorter::sort() {
+void TapeSorter::sort()
+{
     divideAndSortBlocks();
     mergeSortedBlocks();
 }
 
-void TapeSorter::divideAndSortBlocks() {
+void TapeSorter::divideAndSortBlocks()
+{
     std::vector<int> block;
     int numTapes = 0;
     while (!inputTape->isEnd()) {
@@ -59,11 +63,10 @@ void TapeSorter::divideAndSortBlocks() {
     }
 }
 
-void TapeSorter::readBlock(std::vector<int> &block) {
-    block.push_back(inputTape->read());
-}
+void TapeSorter::readBlock(std::vector<int> &block) { block.push_back(inputTape->read()); }
 
-void TapeSorter::sortAndWriteBlock(std::vector<int> &block, int tapeIndex) {
+void TapeSorter::sortAndWriteBlock(std::vector<int> &block, int tapeIndex)
+{
     try {
         if (tapeIndex >= tempTapes.size()) {
             throw NotEnoughTempTapesException();
@@ -79,9 +82,9 @@ void TapeSorter::sortAndWriteBlock(std::vector<int> &block, int tapeIndex) {
     }
 }
 
-void TapeSorter::mergeSortedBlocks() noexcept {
-    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>,
-                        std::greater<>>
+void TapeSorter::mergeSortedBlocks() noexcept
+{
+    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<>>
         minHeap;
     for (int i = 0; i < tempTapes.size(); ++i) {
         if (!tempTapes[i]->isEnd()) {
